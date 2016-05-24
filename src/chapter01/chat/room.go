@@ -1,5 +1,13 @@
 package main
 
+import (
+	"log"
+	"net/http"
+
+	"github.com/gorilla/websocket"
+	//"github.com/oreilly-japan/go-programming-blueprints/chapter1/trace"
+)
+
 type room struct {
 	forward chan [] byte
 	join chan *client
@@ -42,10 +50,10 @@ const (
 	messageBufferSize = 256
 )
 
-var upgrader = & websocket.Upgrader {ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
+var upgrader = &websocket.Upgrader {ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
 
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request){
-	socket, err := upgrader.Uppgrade(w, req, nil)
+	socket, err := upgrader.Upgrade(w, req, nil)
 	if err != nil {
 		log.Fatal("ServerHTTP:", err)
 		return
